@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rest_api/provider/authProvider/auth_provider.dart';
 import 'package:flutter_rest_api/screens/authentication/login_screen.dart';
 import 'package:flutter_rest_api/utils/routers.dart';
 import 'package:flutter_rest_api/widgets/button.dart';
 import 'package:flutter_rest_api/widgets/text_field.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -31,6 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+   // final registerProvider = Provider().of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register'),
@@ -66,11 +69,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         controller : _password,
                         hint: 'Enter Your secured password'
                       ),
-                      CustomButotm(
-                        context: context,
-                        status: false,
-                        tap: (){},
-                        text: 'Register'
+                      Consumer<AuthenticationProvider>(
+                        builder: (context, value, child) {
+                          return CustomButotm(
+                            context: context,
+                            status: value.isLoading,
+                            tap: (){},
+                            text: 'Register'
+                          );
+                        },
+                        
                       ),
 
                       GestureDetector(
